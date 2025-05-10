@@ -15,7 +15,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(appBar: AppBar(title: Text("Home Screen"),),  body: Center(child: InkWell(
         onTap: (){
             // Navigator.pushNamed(context, RouteNames.loginScreen);
-           Utils.toastMessage("taped on click here");
+          // Utils.toastMessage("taped on click here");
+          Utils.flushBarErrorMessage("clicked on error", context);
         },
         child: Text("click here ",style: TextStyle(color: Colors.red),)),),);
   }
