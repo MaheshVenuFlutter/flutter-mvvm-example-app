@@ -31,8 +31,14 @@ class NetworkApiService extends BaseApiService {
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
+    Map<String, String> headerData = {
+      'Content-Type': 'application/json',
+      'x-api-key': 'reqres-free-v1', // Add your API key here
+    };
     try {
-      Response response = await http.post(Uri.parse(url), body: data);
+      Response response = await http.post(Uri.parse(url), body: jsonEncode(data)
+     ,headers: headerData
+      );
       responseJson = returnResponse(response);
     } on SocketException {
       // No internet connection
