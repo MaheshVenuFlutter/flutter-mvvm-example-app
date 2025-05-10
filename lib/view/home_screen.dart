@@ -16,7 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (){
             // Navigator.pushNamed(context, RouteNames.loginScreen);
           // Utils.toastMessage("taped on click here");
-          Utils.flushBarErrorMessage("clicked on error", context);
+         // Utils.flushBarErrorMessage("clicked on error", context);
+         Utils.showSnackBar("clicked on click here ", context);
         },
         child: Text("click here ",style: TextStyle(color: Colors.red),)),),);
   }
