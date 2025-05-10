@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_example/utils/routes/routes.dart';
+import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/view/login_screen.dart';
 
 void main() {
@@ -18,8 +20,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
-    );
+       // Sets the first screen of the app
+      initialRoute: RouteNames.homeScreen,
+
+      // Handles route navigation based on route name
+      onGenerateRoute: Routes.generateRoute,);
   }
 }
 
