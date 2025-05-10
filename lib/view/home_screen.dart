@@ -14,10 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: Text("Home Screen"),),  body: Center(child: InkWell(
         onTap: (){
-            // Navigator.pushNamed(context, RouteNames.loginScreen);
+             Navigator.pushNamed(context, RouteNames.loginScreen);
           // Utils.toastMessage("taped on click here");
          // Utils.flushBarErrorMessage("clicked on error", context);
-         Utils.showSnackBar("clicked on click here ", context);
+        // Utils.showSnackBar("clicked on click here ", context);
         },
         child: Text("click here ",style: TextStyle(color: Colors.red),)),),);
   }
