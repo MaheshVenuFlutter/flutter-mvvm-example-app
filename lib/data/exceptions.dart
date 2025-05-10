@@ -42,3 +42,19 @@ class InvalidInputException extends AppException {
   InvalidInputException([String? message])
       : super(message, 'Invalid Input');
 }
+// Exception for when a requested resource is not found (HTTP 404).
+class NotFoundException extends AppException {
+  NotFoundException([String? message])
+      : super(message, 'Resource Not Found');
+}
+// Exception for when a request takes too long and times out.
+class RequestTimeoutException extends AppException {
+  RequestTimeoutException([String? message])
+      : super(message, 'Request Timed Out');
+}
+// Exception for server-side errors (HTTP 500 series).
+class ServerErrorException extends AppException {
+  ServerErrorException([String? message])
+      : super(message, 'Server Error');
+}
+
