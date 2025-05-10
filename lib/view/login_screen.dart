@@ -22,30 +22,40 @@ class _LoginScreenState extends State<LoginScreen> {
   final FocusNode passwordFocusNode = FocusNode();
 
   void _login() {
-  String email = _emailController.text.trim();
-  String password = _passwordController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-  // Email Empty Check
-  if (email.isEmpty) {
-    Utils.flushBarErrorMessage("Please enter your email", context);
-    return;
+    // Email Empty Check
+    if (email.isEmpty) {
+      Utils.flushBarErrorMessage("Please enter your email", context);
+      return;
+    }
+
+    // Email Format Check
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      Utils.flushBarErrorMessage("Please enter a valid email", context);
+      return;
+    }
+
+    // Password Empty Check
+    if (password.isEmpty) {
+      Utils.flushBarErrorMessage("Please enter your password", context);
+      return;
+    }
+
+    // If all validations pass, navigate to home
+    Navigator.pushNamed(context, RouteNames.homeScreen);
   }
 
-  // Email Format Check
-  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-    Utils.flushBarErrorMessage("Please enter a valid email", context);
-    return;
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
   }
-
-  // Password Empty Check
-  if (password.isEmpty) {
-    Utils.flushBarErrorMessage("Please enter your password", context);
-    return;
-  }
-
-  // If all validations pass, navigate to home
-  Navigator.pushNamed(context, RouteNames.homeScreen);
-}
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: "Email",
-                            prefixIcon: Icon(Icons.alternate_email, color: AppColors.icon),
+                            prefixIcon: Icon(Icons.alternate_email,
+                                color: AppColors.icon),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide: BorderSide(color: AppColors.border),
@@ -108,10 +119,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               obscureText: value,
                               decoration: InputDecoration(
                                 labelText: "Password",
-                                prefixIcon: Icon(Icons.lock, color: AppColors.icon),
+                                prefixIcon:
+                                    Icon(Icons.lock, color: AppColors.icon),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    value ? Icons.visibility_off : Icons.visibility,
+                                    value
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: AppColors.icon,
                                   ),
                                   onPressed: () {
@@ -120,7 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: AppColors.border),
+                                  borderSide:
+                                      BorderSide(color: AppColors.border),
                                 ),
                               ),
                               onFieldSubmitted: (value) {
