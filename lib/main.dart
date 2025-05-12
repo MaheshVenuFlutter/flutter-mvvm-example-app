@@ -3,6 +3,7 @@ import 'package:mvvm_example/utils/routes/routes.dart';
 import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/view_model/aouth_view_model.dart';
 import 'package:mvvm_example/view_model/sign_up_view_model.dart';
+import 'package:mvvm_example/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AouthViewModel(),
         ),
         ChangeNotifierProvider(create: (context) => SignUpViewModel()),
+        ChangeNotifierProvider(create: (context) => UserViewModel()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
