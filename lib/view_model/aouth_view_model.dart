@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:mvvm_example/repository/aouth_repository.dart';
+import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/utils/utils.dart';
 
 class AouthViewModel with ChangeNotifier {
@@ -29,57 +33,69 @@ class AouthViewModel with ChangeNotifier {
     obscurePassword.value = !obscurePassword.value;
   }
 
-  Future<void> logIn(BuildContext context) async {
+  bool validateLoginForm(BuildContext context) {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
     // Email Empty Check
     if (email.isEmpty) {
       Utils.flushBarErrorMessage("Please enter your email", context);
-      return;
+      return false;
     }
 
     // Email Format Check
     if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
       Utils.flushBarErrorMessage("Please enter a valid email", context);
-      return;
+      return false;
     }
 
     // Password Empty Check
     if (password.isEmpty) {
       Utils.flushBarErrorMessage("Please enter your password", context);
-      return;
+      return false;
     }
 
-    // If all validations pass, collect data and call the login API
-    Map<String, String> data = {
-      "email": email,
-      "password": password,
-    };
-
-    // Call the API with the collected data
-    callLogInApi(data, context);
+    return true;
   }
 
-  Future<void> callLogInApi(Map<String, String> data, BuildContext context) async {
+  Future<void> callLogInApi(
+      Map<String, String> data, BuildContext context) async {
     try {
       setLoginLoader(true); // Set loader to true when starting the API call
 
       // Attempting the login API call
-      var response = await _myRepo.loginApi(data);
+      Response response = await _myRepo.loginApi(data);
 
       // If successful, print the response
-      print("Response: $response");
-
-      // You can handle navigation here, for example:
-      // Navigator.pushNamed(context, RouteNames.homeScreen);
+      print("Response: ${response}");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final responseBody = jsonDecode(response.body);
+        final token = responseBody['token'];
+        // Navigator.pushNamed(context, RouteNames.homeScreen);
+        Utils.showSnackBar("LogIn Successfully", context);
+        Navigator.pushReplacementNamed(context, RouteNames.homeScreen);
+      }
     } catch (error, stackTrace) {
       // If an error occurs, print the error and stack trace
       print("Error: $error");
       print("Stack Trace: $stackTrace");
       Utils.flushBarErrorMessage(error.toString(), context);
     } finally {
-      setLoginLoader(false); // Reset loader after API call completes (success or failure)
+      setLoginLoader(
+          false); // Reset loader after API call completes (success or failure)
+    }
+  }
+
+  void login(BuildContext context) {
+    bool isValid = validateLoginForm(context);
+    Map<String, String> data = {
+      "email": emailController.text,
+      "password": passwordController.text,
+    };
+    if (isValid) {
+      callLogInApi(data, context);
+    } else {
+      return;
     }
   }
 

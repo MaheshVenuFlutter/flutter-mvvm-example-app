@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_example/res/app_colors.dart';
 
 import 'package:mvvm_example/res/components/round_butten.dart';
+import 'package:mvvm_example/utils/routes/routes_names.dart';
 
 import 'package:mvvm_example/utils/utils.dart';
 import 'package:mvvm_example/view_model/aouth_view_model.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   ValueNotifier<bool> _obscurePassword = ValueNotifier<bool>(true);
-
+  @override
   void dispose() {
     // Dispose of the ViewModel
     context.read<AouthViewModel>().dispose();
@@ -56,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Consumer<AouthViewModel>(
-                          builder: (context, provider, child) {
+                    padding: const EdgeInsets.all(20.0),
+                    child: Consumer<AouthViewModel>(
+                      builder: (context, provider, child) {
                         return Column(
                           children: [
                             // Email
@@ -128,12 +129,26 @@ class _LoginScreenState extends State<LoginScreen> {
                               title: "Login",
                               loading: provider.loaderLogin,
                               onPressed: () {
-                                context.read<AouthViewModel>().logIn(context);
+                                context.read<AouthViewModel>().login(context);
                               },
-                            )
+                            ),
+
+                            TextButton(
+                              onPressed: () {
+                                // Navigate to SignUp screen or handle action
+                                Navigator.pushNamed(
+                                    context, RouteNames.signUpScreen);
+                              },
+                              child: Text(
+                                "Don't have an account?",
+                                style: TextStyle(color: AppColors.textPrimary),
+                              ),
+                            ),
                           ],
                         );
-                      })),
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_example/utils/routes/routes.dart';
 import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/view_model/aouth_view_model.dart';
+import 'package:mvvm_example/view_model/sign_up_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,21 +19,21 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => AouthViewModel(),
-          
-        )
+        ),
+        ChangeNotifierProvider(create: (context) => SignUpViewModel()),
       ],
-      child:  MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            // Sets the first screen of the app
-            initialRoute: RouteNames.homeScreen,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // Sets the first screen of the app
+        initialRoute: RouteNames.loginScreen,
 
-            // Handles route navigation based on route name
-            onGenerateRoute: Routes.generateRoute,
-          ),
+        // Handles route navigation based on route name
+        onGenerateRoute: Routes.generateRoute,
+      ),
     );
   }
 }

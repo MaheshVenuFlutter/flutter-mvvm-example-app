@@ -36,9 +36,8 @@ class NetworkApiService extends BaseApiService {
       'x-api-key': 'reqres-free-v1', // Add your API key here
     };
     try {
-      Response response = await http.post(Uri.parse(url), body: jsonEncode(data)
-     ,headers: headerData
-      );
+      Response response = await http.post(Uri.parse(url),
+          body: jsonEncode(data), headers: headerData);
       responseJson = returnResponse(response);
     } on SocketException {
       // No internet connection
@@ -59,7 +58,7 @@ class NetworkApiService extends BaseApiService {
     switch (response.statusCode) {
       case 200: // OK - Standard successful HTTP request
       case 201: // Created - Resource created successfully
-        return jsonDecode(response.body);
+        return response;
 
       case 204: // No Content - Request succeeded but no content returned
         return null;

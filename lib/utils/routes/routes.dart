@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mvvm_example/utils/routes/routes_names.dart';
 
 import 'package:mvvm_example/view/home_screen.dart'; // Import the Home screen widget
-import 'package:mvvm_example/view/login_screen.dart'; // Import the Login screen widget
+import 'package:mvvm_example/view/login_screen.dart';
+import 'package:mvvm_example/view/sign_up_acreen.dart'; // Import the Login screen widget
 
 // This class defines all the routes used in the app
 class Routes {
@@ -10,7 +11,9 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Use a switch statement to match the route name
     switch (settings.name) {
-
+      //  Route for Sign Up 
+      case RouteNames.signUpScreen:
+      return MaterialPageRoute(builder: (BuildContext context)=> SignUpScreen());
       // Route for Home Screen
       case RouteNames.homeScreen:
         return MaterialPageRoute(
@@ -22,6 +25,8 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => LoginScreen(), // Navigate to LoginScreen widget
         );
+
+        
 
       // Default route (if no match is found)
       default:
