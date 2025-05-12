@@ -8,6 +8,7 @@ import 'package:mvvm_example/utils/routes/routes_names.dart';
 
 import 'package:mvvm_example/utils/utils.dart';
 import 'package:mvvm_example/view_model/aouth_view_model.dart';
+import 'package:mvvm_example/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -129,7 +130,26 @@ class _LoginScreenState extends State<LoginScreen> {
                               title: "Login",
                               loading: provider.loaderLogin,
                               onPressed: () {
-                                context.read<AouthViewModel>().login(context);
+                                context.read<AouthViewModel>().login(
+                                  context,
+                                  onError: (error) {
+                                    Utils.flushBarErrorMessage(
+                                        error.toString(), context);
+                                  },
+                                  onSuccess: (user) async {
+                                    await context
+                                        .read<UserViewModel>()
+                                        .saveUserData(user);
+                                    Utils.showSnackBar(
+                                        "Login Successfully", context);
+                                    Navigator.pushReplacementNamed(
+                                        context, RouteNames.homeScreen);
+                                  },
+                                  onfailed: () {
+                                    Utils.flushBarErrorMessage(
+                                        "Login failed", context);
+                                  },
+                                );
                               },
                             ),
 

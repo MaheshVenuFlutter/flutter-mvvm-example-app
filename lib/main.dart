@@ -3,6 +3,7 @@ import 'package:mvvm_example/utils/routes/routes.dart';
 import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/view_model/aouth_view_model.dart';
 import 'package:mvvm_example/view_model/sign_up_view_model.dart';
+import 'package:mvvm_example/view_model/splash_view_model.dart';
 import 'package:mvvm_example/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (context) => SignUpViewModel()),
         ChangeNotifierProvider(create: (context) => UserViewModel()),
+        ChangeNotifierProvider(create: (context) => SplashViewModel()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // Sets the first screen of the app
-        initialRoute: RouteNames.loginScreen,
+        initialRoute: RouteNames.splashScreen,
 
         // Handles route navigation based on route name
         onGenerateRoute: Routes.generateRoute,

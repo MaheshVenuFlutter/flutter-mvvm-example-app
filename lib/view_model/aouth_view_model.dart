@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:mvvm_example/model/user_model.dart';
 import 'package:mvvm_example/repository/aouth_repository.dart';
 import 'package:mvvm_example/utils/routes/routes_names.dart';
 import 'package:mvvm_example/utils/utils.dart';
+import 'package:mvvm_example/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 
 class AouthViewModel with ChangeNotifier {
   final _myRepo = AouthRepository();
@@ -59,41 +62,45 @@ class AouthViewModel with ChangeNotifier {
   }
 
   Future<void> callLogInApi(
-      Map<String, String> data, BuildContext context) async {
+    Map<String, String> data, {
+    required void Function(UserModel user) onSuccess,
+    required void Function(String error) onError,
+    required VoidCallback onfailed,
+  }) async {
     try {
-      setLoginLoader(true); // Set loader to true when starting the API call
+      setLoginLoader(true); // Start loader
 
-      // Attempting the login API call
       Response response = await _myRepo.loginApi(data);
+      print("Response: $response");
 
-      // If successful, print the response
-      print("Response: ${response}");
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseBody = jsonDecode(response.body);
-        final token = responseBody['token'];
-        // Navigator.pushNamed(context, RouteNames.homeScreen);
-        Utils.showSnackBar("LogIn Successfully", context);
-        Navigator.pushReplacementNamed(context, RouteNames.homeScreen);
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+        final user = UserModel.fromJson(responseBody);
+        onSuccess(user);
+      } else {
+        onfailed();
       }
     } catch (error, stackTrace) {
-      // If an error occurs, print the error and stack trace
       print("Error: $error");
       print("Stack Trace: $stackTrace");
-      Utils.flushBarErrorMessage(error.toString(), context);
+      onError(error.toString());
     } finally {
-      setLoginLoader(
-          false); // Reset loader after API call completes (success or failure)
+      setLoginLoader(false); // End loader
     }
   }
 
-  void login(BuildContext context) {
+  void login(BuildContext context,
+      {required void Function(String) onError,
+      required dynamic Function(UserModel) onSuccess,
+      required void Function() onfailed}) {
     bool isValid = validateLoginForm(context);
     Map<String, String> data = {
       "email": emailController.text,
       "password": passwordController.text,
     };
     if (isValid) {
-      callLogInApi(data, context);
+      callLogInApi(data,
+          onError: onError, onSuccess: onSuccess, onfailed: onfailed);
     } else {
       return;
     }
