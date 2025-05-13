@@ -3,13 +3,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:another_flushbar/flushbar.dart';
 
 class Utils {
-  
   /// Moves focus from the current field to the next.
   static void fieldFocuseChange(
       BuildContext context, FocusNode current, FocusNode next) {
-        current.unfocus();
-        FocusScope.of(context).requestFocus(next);
-      }
+    current.unfocus();
+    FocusScope.of(context).requestFocus(next);
+  }
 
   /// Shows a custom-styled toast message using `fluttertoast`
   static Future<bool?> toastMessage(String message) {
@@ -49,7 +48,7 @@ class Utils {
         content: Text(message),
         backgroundColor: Colors.blueAccent, // Blue background
         behavior: SnackBarBehavior.floating, // Detaches from bottom
-        duration: const Duration(seconds: 3), // Duration visible
+        duration: const Duration(seconds: 2), // Duration visible
       ),
     );
   }

@@ -142,8 +142,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .saveUserData(user);
                                     Utils.showSnackBar(
                                         "Login Successfully", context);
-                                    Navigator.pushReplacementNamed(
-                                        context, RouteNames.homeScreen);
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      RouteNames.homeScreen,
+                                      (route) => false,
+                                    );
                                   },
                                   onfailed: () {
                                     Utils.flushBarErrorMessage(
